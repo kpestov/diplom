@@ -6,7 +6,7 @@ VICTIM_ID = 18689304
 TOKEN = '5dfd6b0dee902310df772082421968f4c06443abecbc082a8440cb18910a56daca73ac8d04b25154a1128'
 
 
-def get_victim_groups(TOKEN, VICTIM_ID):
+def get_victim_groups():
 
     params = {
         'access_token': TOKEN,
@@ -24,7 +24,7 @@ def get_victim_groups(TOKEN, VICTIM_ID):
     return victim_groups_set
 
 
-def get_victim_friends(TOKEN, VICTIM_ID):
+def get_victim_friends():
 
     params = {
         'access_token': TOKEN,
@@ -65,7 +65,7 @@ def is_valid_friend(victim_friends_list):
     return valid_list_of_friends
 
 
-def get_friends_groups(TOKEN, valid_list_of_friends):
+def get_friends_groups(valid_list_of_friends):
 
     main_list_friends_groups = []
 
@@ -102,9 +102,9 @@ def get_group_description(unique_groups):
 
     list_of_group_description = []
     i = 0
-    for id in unique_groups:
+    for user_id in unique_groups:
         params = {
-            'group_ids': id,
+            'group_ids': user_id,
             'fields': 'members_count',
             'v': '5.73'
         }
@@ -130,10 +130,10 @@ def write_groups_to_json(list_of_group_description):
 
 
 def main():
-    result_get_victim_groups = get_victim_groups(TOKEN, VICTIM_ID)
-    result_get_victim_friends = get_victim_friends(TOKEN, VICTIM_ID)
+    result_get_victim_groups = get_victim_groups()
+    result_get_victim_friends = get_victim_friends()
     result_is_valid_friend = is_valid_friend(result_get_victim_friends)
-    result_get_friends_groups = get_friends_groups(TOKEN, result_is_valid_friend)
+    result_get_friends_groups = get_friends_groups(result_is_valid_friend)
     result_get_unique_groups = get_unique_groups(result_get_victim_groups, result_get_friends_groups)
     result_get_group_description = get_group_description(result_get_unique_groups)
     write_groups_to_json(result_get_group_description)
